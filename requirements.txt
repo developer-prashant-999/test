@@ -1,13 +1,28 @@
-# Core requirements for deployment
+# Web Framework
 Flask==2.3.3
 Werkzeug==2.3.7
 gunicorn==21.2.0
+
+# Database & Security
 SQLAlchemy==2.0.43
 passlib==1.7.4
+bcrypt==4.1.2
+
+# Data Processing
 pandas==2.3.2
 numpy==1.26.4
-python-dotenv==1.1.1
 
-# Add these later after successful deployment
+# ML - CPU only versions for deployment
 scikit-learn==1.7.1
 joblib==1.5.1
+torch==2.8.0 --index-url https://download.pytorch.org/whl/cpu
+
+# Utilities
+python-dotenv==1.1.1
+
+# Add these later after deployment works:
+# sentence-transformers==5.1.0
+# google-generativeai==0.3.2
+# prophet==1.1.7
+# IMDbPY==2022.7.9
+# pytrends==4.9.2
