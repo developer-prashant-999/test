@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign Up - Smart Recommendation Interface</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #7209b7;
+            --success: #06d6a0;
+            --warning: #ffd166;
+            --danger: #ef476f;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray-100: #f8f9fa;
+            --gray-200: #e9ecef;
+            --gray-300: #dee2e6;
+            --gray-400: #ced4da;
+            --gray-500: #adb5bd;
+            --gray-600: #6c757d;
+            --gray-700: #495057;
+            --gray-800: #343a40;
+            --gray-900: #212529;
+            --border-radius: 12px;
+            --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #e3f2fd 0%, #f5f7fb 100%);
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 440px;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius);
+            padding: 40px;
+            box-shadow: var(--box-shadow);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: var(--transition);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo h1 {
+            font-size: 28px;
+            color: var(--primary);
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .logo p {
+            color: var(--gray-600);
+            font-size: 16px;
+        }
+
+        h2 {
+            text-align: center;
+            color: var(--primary);
+            margin-bottom: 30px;
+            font-size: 24px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        /* Flash Messages */
+        .flash {
+            padding: 12px 16px;
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .flash.success {
+            background: #e6f7f2;
+            color: #0a7c5f;
+            border-left: 4px solid var(--success);
+        }
+
+        .flash.error {
+            background: #fdedef;
+            color: #d32f2f;
+            border-left: 4px solid var(--danger);
+        }
+
+        .flash.warning {
+            background: #fff8e6;
+            color: #ed6c02;
+            border-left: 4px solid var(--warning);
+        }
+
+        /* Form Styles */
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px 15px 15px 45px;
+            border: 1px solid var(--gray-300);
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            transition: var(--transition);
+            background-color: var(--gray-100);
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+            background-color: #fff;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-500);
+        }
+
+        /* File Input Styling */
+        .file-input-container {
+            position: relative;
+        }
+
+        .file-input-label {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            border: 1px dashed var(--gray-400);
+            border-radius: var(--border-radius);
+            background-color: var(--gray-100);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .file-input-label:hover {
+            border-color: var(--primary);
+            background-color: #fff;
+        }
+
+        .file-input-text {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--gray-600);
+        }
+
+        .file-input-button {
+            background: var(--primary);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        input[type="file"] {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        /* Selected file name */
+        .file-name {
+            margin-top: 8px;
+            font-size: 14px;
+            color: var(--gray-600);
+            display: none;
+        }
+
+        /* Button Styles */
+        button {
+            padding: 16px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        button:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        /* Link Styles */
+        p {
+            text-align: center;
+            margin-top: 25px;
+            color: var(--gray-600);
+        }
+
+        a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        a:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 480px) {
+            .glass-card {
+                padding: 30px 25px;
+            }
+            
+            h2 {
+                font-size: 22px;
+            }
+            
+            input {
+                padding: 12px 12px 12px 40px;
+            }
+            
+            button {
+                padding: 14px;
+            }
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .glass-card {
+            animation: fadeIn 0.5s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="glass-card">
+            <div class="logo">
+                <h1>Smart Recommendation Interface</h1>
+                <p>Create your account to get started</p>
+            </div>
+            
+            <h2><i class="fa-solid fa-user-plus"></i> Sign Up</h2>
+
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="flash {{ category }}">
+                            <i class="fa-solid fa-{% if category == 'success' %}check-circle{% elif category == 'error' %}exclamation-circle{% else %}exclamation-triangle{% endif %}"></i>
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <form method="post" enctype="multipart/form-data">
+                <div class="input-group">
+                    <i class="fa-solid fa-user input-icon"></i>
+                    <input type="text" name="username" placeholder="Choose a username" required>
+                </div>
+                
+                <div class="input-group">
+                    <i class="fa-solid fa-lock input-icon"></i>
+                    <input type="password" name="password" placeholder="Choose a password" required>
+                </div>
+                
+                <div class="file-input-container">
+                    <label class="file-input-label">
+                        <span class="file-input-text">
+                            <i class="fa-solid fa-file-csv"></i>
+                            <span>Upload dataset (optional)</span>
+                        </span>
+                        <span class="file-input-button">Browse</span>
+                    </label>
+                    <input type="file" name="dataset" accept=".csv">
+                    <div class="file-name" id="file-name">No file selected</div>
+                </div>
+                
+                <button type="submit"><i class="fa-solid fa-user-check"></i> Create Account</button>
+            </form>
+            
+            <p>
+                Already have an account? <a href="{{ url_for('login') }}">Login here</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Show selected file name
+        document.querySelector('input[type="file"]').addEventListener('change', function(e) {
+            const fileName = document.getElementById('file-name');
+            if (this.files.length > 0) {
+                fileName.textContent = this.files[0].name;
+                fileName.style.display = 'block';
+            } else {
+                fileName.style.display = 'none';
+            }
+        });
+
+        // Add animation to form elements
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = document.querySelectorAll('input');
+            inputs.forEach((input, index) => {
+                input.style.animation = `fadeIn 0.5s ease-out ${index * 0.1}s both`;
+            });
+            
+            const button = document.querySelector('button');
+            button.style.animation = 'fadeIn 0.5s ease-out 0.3s both';
+        });
+    </script>
+</body>
+</html>

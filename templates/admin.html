@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #7209b7;
+            --success: #06d6a0;
+            --warning: #ffd166;
+            --danger: #ef476f;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray-100: #f8f9fa;
+            --gray-200: #e9ecef;
+            --gray-300: #dee2e6;
+            --gray-400: #ced4da;
+            --gray-500: #adb5bd;
+            --gray-600: #6c757d;
+            --gray-700: #495057;
+            --gray-800: #343a40;
+            --gray-900: #212529;
+            --sidebar-width: 250px;
+            --border-radius: 10px;
+            --box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fb;
+            color: var(--gray-800);
+            line-height: 1.6;
+        }
+
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: linear-gradient(to bottom, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            transition: var(--transition);
+            z-index: 1000;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-header h3 {
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .sidebar-header i {
+            font-size: 20px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 10px 0;
+        }
+
+        .sidebar li {
+            margin: 5px 15px;
+        }
+
+        .sidebar a {
+            color: rgba(255, 255, 255, 0.85);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 15px;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .sidebar a:hover, .sidebar a.active {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .sidebar a i {
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Right side content */
+        .right-side {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .dashboard-heading {
+            background: white;
+            padding: 20px 30px;
+            box-shadow: var(--box-shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dashboard-heading h1 {
+            color: var(--primary);
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        /* Main content */
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            background: #f5f7fb;
+        }
+
+        .card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            margin-bottom: 25px;
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: 18px 25px;
+            border-bottom: 1px solid var(--gray-200);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .card-header h2 {
+            font-size: 18px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-body {
+            padding: 25px;
+        }
+
+        /* Flash messages */
+        .flash {
+            padding: 12px 16px;
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .flash.success {
+            background: #e6f7f2;
+            color: #0a7c5f;
+            border-left: 4px solid var(--success);
+        }
+
+        .flash.error {
+            background: #fdedef;
+            color: #d32f2f;
+            border-left: 4px solid var(--danger);
+        }
+
+        .flash.warning {
+            background: #fff8e6;
+            color: #ed6c02;
+            border-left: 4px solid var(--warning);
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-bottom: 20px;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 0 0 1px var(--gray-200);
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        thead {
+            background: linear-gradient(to right, var(--primary), var(--primary-dark));
+            color: white;
+        }
+
+        th {
+            font-weight: 600;
+            padding: 16px 15px;
+        }
+
+        tbody tr {
+            transition: var(--transition);
+        }
+
+        tbody tr:hover {
+            background: rgba(67, 97, 238, 0.05);
+        }
+
+        /* Buttons */
+        button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-blue {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-blue:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-green {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-green:hover {
+            background: #05c290;
+            transform: translateY(-2px);
+        }
+
+        .btn-red {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-red:hover {
+            background: #e7365f;
+            transform: translateY(-2px);
+        }
+
+        .btn-orange {
+            background: var(--warning);
+            color: var(--dark);
+        }
+
+        .btn-orange:hover {
+            background: #ffc94d;
+            transform: translateY(-2px);
+        }
+
+        /* Form elements */
+        input[type="number"], select, input[type="file"] {
+            padding: 8px 12px;
+            border: 1px solid var(--gray-300);
+            border-radius: 6px;
+            font-size: 13px;
+            transition: var(--transition);
+        }
+
+        input[type="number"]:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+        }
+
+        /* Logout button */
+        .logout-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--danger);
+            color: white;
+            padding: 10px 18px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .logout-btn:hover {
+            background: #e7365f;
+            transform: translateY(-2px);
+        }
+
+        /* Forms in table */
+        form {
+            display: inline-block;
+            margin: 2px;
+        }
+
+        /* Status badges */
+        .status-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .status-active {
+            background: rgba(6, 214, 160, 0.15);
+            color: var(--success);
+        }
+
+        .status-paused {
+            background: rgba(255, 209, 102, 0.15);
+            color: #e6b400;
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--gray-500);
+        }
+
+        .empty-state i {
+            font-size: 40px;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 70px;
+                overflow: visible;
+            }
+            
+            .sidebar-header h3, .sidebar a span {
+                display: none;
+            }
+            
+            .sidebar a {
+                justify-content: center;
+                padding: 15px;
+            }
+            
+            .right-side {
+                margin-left: 70px;
+            }
+            
+            .sidebar a:hover::after {
+                content: attr(data-title);
+                position: absolute;
+                left: 80px;
+                background: var(--primary-dark);
+                padding: 8px 12px;
+                border-radius: 4px;
+                white-space: nowrap;
+                z-index: 1000;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-heading {
+                padding: 15px 20px;
+            }
+            
+            .main-content {
+                padding: 20px 15px;
+            }
+            
+            .card-body {
+                padding: 15px;
+            }
+            
+            table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="dashboard-container">
+    <!-- Sidebar -->
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <i class="fa-solid fa-user-shield"></i>
+            <h3>Admin Panel</h3>
+        </div>
+        <ul>
+            <li><a href="{{ url_for('admin_dashboard') }}" class="active" data-title="Users"><i class="fa-solid fa-table"></i> <span>Users</span></a></li>
+            <li><a href="#" data-title="Analytics"><i class="fa-solid fa-chart-line"></i> <span>Analytics</span></a></li>
+            <li><a href="#" data-title="Settings"><i class="fa-solid fa-gear"></i> <span>Settings</span></a></li>
+            <li><a href="#" data-title="Help"><i class="fa-solid fa-circle-question"></i> <span>Help</span></a></li>
+        </ul>
+    </nav>
+
+    <!-- Right side -->
+    <div class="right-side">
+        <header class="dashboard-heading">
+            <h1>Admin Dashboard</h1>
+            <a href="{{ url_for('logout') }}" class="logout-btn">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
+            </a>
+        </header>
+        <div class="main-content">
+
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+              {% for category,message in messages %}
+                <div class="flash {{ category }}">
+                    <i class="fa-solid fa-{% if category == 'success' %}check-circle{% elif category == 'error' %}exclamation-circle{% else %}exclamation-triangle{% endif %}"></i>
+                    {{ message }}
+                </div>
+              {% endfor %}
+            {% endwith %}
+
+            <!-- Pending Accounts -->
+            <div class="card">
+                <div class="card-header">
+                    <h2><i class="fa-solid fa-hourglass-half"></i> Pending Accounts</h2>
+                    <span class="badge">{{ pending_users|length }} pending</span>
+                </div>
+                <div class="card-body">
+                    {% if pending_users %}
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>Created</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in pending_users %}
+                            <tr>
+                                <td>{{ user.username }}</td>
+                                <td>{{ user.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                                <td>
+                                    <form method="post">
+                                        <input type="hidden" name="action" value="approve">
+                                        <input type="hidden" name="user_id" value="{{ user.id }}">
+                                        <button class="btn-green" type="submit">
+                                            <i class="fa-solid fa-check"></i> Approve
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                    <div class="empty-state">
+                        <i class="fa-regular fa-folder-open"></i>
+                        <p>No pending accounts</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Active / Paused -->
+            <div class="card">
+                <div class="card-header">
+                    <h2><i class="fa-solid fa-users"></i> User Management</h2>
+                    <span class="badge">{{ active_users|length }} users</span>
+                </div>
+                <div class="card-body">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>Status</th>
+                                <th>Tier</th>
+                                <th>Payment Active</th>
+                                <th>Since</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in active_users %}
+                            <tr>
+                                <td>{{ user.username }}</td>
+                                <td>
+                                    <span class="status-badge {% if user.status != 'paused' %}status-active{% else %}status-paused{% endif %}">
+                                        {{ user.status }}
+                                    </span>
+                                </td>
+                                <td>{{ tier_label.get(user.payment_tier, "None") }}</td>
+                                <td>
+                                    {% if user.payment_active %}
+                                    <i class="fa-solid fa-check-circle" style="color: var(--success);"></i>
+                                    {% else %}
+                                    <i class="fa-solid fa-times-circle" style="color: var(--danger);"></i>
+                                    {% endif %}
+                                </td>
+                                <td>{{ user.payment_start.strftime('%Y-%m-%d %H:%M:%S') if user.payment_start else "—" }}</td>
+                                <td>
+                                    <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                                        <!-- Tier Dropdown -->
+                                        <form method="post">
+                                            <input type="hidden" name="action" value="set_tier">
+                                            <input type="hidden" name="user_id" value="{{ user.id }}">
+                                            <select name="tier" style="margin-right: 5px;">
+                                                <option value="1">Tier 1 (Views)</option>
+                                                <option value="2">Tier 2 (Similar)</option>
+                                                <option value="3">Tier 3 (Both)</option>
+                                            </select>
+                                            <button class="btn-green" type="submit">
+                                                <i class="fa-solid fa-gear"></i> Set Tier
+                                            </button>
+                                        </form>
+
+                                        <!-- Pause/Reactivate -->
+                                        {% if user.status != "paused" %}
+                                        <form method="post">
+                                            <input type="hidden" name="action" value="pause">
+                                            <input type="hidden" name="user_id" value="{{ user.id }}">
+                                            <button class="btn-orange" type="submit">
+                                                <i class="fa-solid fa-pause"></i> Pause
+                                            </button>
+                                        </form>
+                                        {% else %}
+                                        <form method="post">
+                                            <input type="hidden" name="action" value="reactivate">
+                                            <input type="hidden" name="user_id" value="{{ user.id }}">
+                                            <button class="btn-blue" type="submit">
+                                                <i class="fa-solid fa-play"></i> Reactivate
+                                            </button>
+                                        </form>
+                                        {% endif %}
+
+                                        <!-- ZIP -->
+                                        <form method="post">
+                                            <input type="hidden" name="action" value="download_zip">
+                                            <input type="hidden" name="user_id" value="{{ user.id }}">
+                                            <button class="btn-blue" type="submit">
+                                                <i class="fa-solid fa-download"></i> ZIP
+                                            </button>
+                                        </form>
+
+                                        <!-- Dataset upload -->
+                                        <form method="post" enctype="multipart/form-data" id="dataset-form-{{ user.id }}">
+                                            <input type="hidden" name="action" value="upload_dataset">
+                                            <input type="hidden" name="user_id" value="{{ user.id }}">
+                                            <div style="display: flex; align-items: center; gap: 8px;">
+                                                <input type="file" name="dataset" accept=".csv" style="display: none;" id="dataset-{{ user.id }}">
+                                                <label for="dataset-{{ user.id }}" class="btn-blue" style="cursor: pointer; margin: 0;">
+                                                    <i class="fa-solid fa-upload"></i> Choose File
+                                                </label>
+                                                <span id="file-name-{{ user.id }}" style="font-size: 12px; color: var(--gray-600);">No file chosen</span>
+                                                <button type="submit" class="btn-green" style="margin-left: 8px;">
+                                                    <i class="fa-solid fa-cloud-upload"></i> Upload
+                                                </button>
+                                            </div>
+                                        </form>
+
+                                        <!-- Retrain -->
+                                        <form method="post">
+                                            <input type="hidden" name="action" value="retrain_model">
+                                            <input type="hidden" name="user_id" value="{{ user.id }}">
+                                            <button class="btn-red" type="submit">
+                                                <i class="fa-solid fa-rotate"></i> Retrain
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Add interactivity to file inputs
+    document.querySelectorAll('input[type="file"]').forEach(input => {
+        input.addEventListener('change', function() {
+            const userId = this.id.split('-')[1];
+            const fileNameSpan = document.getElementById(`file-name-${userId}`);
+            
+            if (this.files.length > 0) {
+                fileNameSpan.textContent = this.files[0].name;
+                fileNameSpan.style.color = 'var(--success)';
+            } else {
+                fileNameSpan.textContent = 'No file chosen';
+                fileNameSpan.style.color = 'var(--gray-600)';
+            }
+        });
+    });
+
+    // Add confirmation for retrain action
+    document.querySelectorAll('form').forEach(form => {
+        const actionInput = form.querySelector('input[name="action"]');
+        if (actionInput && actionInput.value === 'retrain_model') {
+            form.addEventListener('submit', function(e) {
+                if (!confirm('Are you sure you want to retrain the model? This may take several minutes.')) {
+                    e.preventDefault();
+                }
+            });
+        }
+    });
+</script>
+</body>
+</html>

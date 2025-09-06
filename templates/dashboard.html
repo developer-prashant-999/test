@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root {
+    --primary: #4361ee;
+    --primary-dark: #3a56d4;
+    --secondary: #7209b7;
+    --success: #06d6a0;
+    --warning: #ffd166;
+    --danger: #ef476f;
+    --light: #f8f9fa;
+    --dark: #212529;
+    --gray-100: #f8f9fa;
+    --gray-200: #e9ecef;
+    --gray-300: #dee2e6;
+    --gray-400: #ced4da;
+    --gray-500: #adb5bd;
+    --gray-600: #6c757d;
+    --gray-700: #495057;
+    --gray-800: #343a40;
+    --gray-900: #212529;
+    --sidebar-width: 250px;
+    --border-radius: 12px;
+    --box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    --transition: all 0.3s ease;
+}
+
+* { 
+    margin:0; 
+    padding:0; 
+    box-sizing:border-box; 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+}
+
+body { 
+    display:flex; 
+    min-height:100vh; 
+    background: #f5f7fb;
+    font-size:14px; 
+    color:var(--gray-800); 
+    line-height: 1.6;
+}
+
+.dashboard-container { 
+    display:flex; 
+    flex:1; 
+    width:100%; 
+}
+
+/* Sidebar */
+.sidebar { 
+    width: var(--sidebar-width); 
+    background: linear-gradient(to bottom, var(--primary), var(--primary-dark));
+    color:#fff; 
+    display:flex; 
+    flex-direction:column; 
+    padding: 25px 0;
+    position: fixed;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+.sidebar-header {
+    padding: 0 20px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 15px;
+}
+
+.sidebar h3 { 
+    font-size:20px; 
+    display:flex; 
+    align-items:center; 
+    gap:10px; 
+    font-weight: 600;
+}
+
+.sidebar ul { 
+    list-style:none; 
+    flex:1; 
+    padding: 0 15px;
+}
+
+.sidebar ul li { 
+    margin:8px 0; 
+}
+
+.sidebar ul li a { 
+    color:rgba(255, 255, 255, 0.85); 
+    text-decoration:none; 
+    display:flex; 
+    align-items:center; 
+    gap:12px; 
+    font-weight:500; 
+    padding:12px 15px; 
+    border-radius:var(--border-radius); 
+    transition:var(--transition); 
+    font-size:14px; 
+}
+
+.sidebar ul li a:hover, 
+.sidebar ul li a.active { 
+    background:rgba(255, 255, 255, 0.1); 
+    color:#fff;
+    transform: translateX(5px);
+}
+
+.sidebar ul li a i {
+    width: 20px;
+    text-align: center;
+}
+
+/* Right side: header + main content stacked vertically */
+.right-side { 
+    flex:1; 
+    display:flex; 
+    flex-direction:column; 
+    margin-left: var(--sidebar-width);
+}
+
+.dashboard-heading { 
+    padding:20px 30px; 
+    background-color:#fff; 
+    box-shadow: var(--box-shadow);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dashboard-heading h1 { 
+    font-size:24px; 
+    font-weight:700; 
+    color:var(--primary); 
+}
+
+.dashboard-heading h1 span { 
+    font-size:16px; 
+    font-weight:500; 
+    color:var(--gray-600); 
+    margin-left:8px; 
+}
+
+.main-content { 
+    flex:1; 
+    padding:30px; 
+    background-color:#f5f7fb; 
+}
+
+/* Flash messages */
+.flash { 
+    padding:12px 16px; 
+    border-radius:var(--border-radius); 
+    margin-bottom:20px; 
+    font-weight:500; 
+    font-size:14px; 
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.flash.success { 
+    background:#e6f7f2; 
+    color:#0a7c5f; 
+    border-left: 4px solid var(--success);
+}
+
+.flash.danger { 
+    background:#fdedef; 
+    color:#d32f2f; 
+    border-left: 4px solid var(--danger);
+}
+
+.flash.warning { 
+    background:#fff8e6; 
+    color:#ed6c02; 
+    border-left: 4px solid var(--warning);
+}
+
+/* Card */
+.card { 
+    background:#fff; 
+    border-radius:var(--border-radius); 
+    padding:25px; 
+    margin-bottom:25px; 
+    box-shadow:var(--box-shadow); 
+    transition: var(--transition);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+.card h2 { 
+    font-size:18px; 
+    margin-bottom:20px; 
+    color:var(--primary); 
+    display:flex; 
+    align-items:center; 
+    gap:10px; 
+    font-weight:600; 
+}
+
+.card form input { 
+    width:100%; 
+    padding:12px 15px; 
+    margin-bottom:15px; 
+    border-radius:var(--border-radius); 
+    border:1px solid var(--gray-300); 
+    outline:none; 
+    font-size:14px; 
+    transition: var(--transition);
+}
+
+.card form input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+}
+
+.card form button { 
+    padding:12px 20px; 
+    background-color:var(--primary); 
+    color:#fff; 
+    border:none; 
+    border-radius:var(--border-radius); 
+    font-weight:600; 
+    cursor:pointer; 
+    display:flex; 
+    align-items:center; 
+    gap:8px; 
+    font-size:14px; 
+    transition:var(--transition); 
+}
+
+.card form button:hover { 
+    background-color:var(--primary-dark); 
+    transform:translateY(-2px); 
+    box-shadow:0 4px 12px rgba(0,0,0,0.15); 
+}
+
+/* Tier Cards inside account page */
+.tier-container { 
+    display:flex; 
+    flex-wrap:wrap; 
+    gap:20px; 
+}
+
+.tier-card { 
+    flex:1 1 280px; 
+    background:#fff; 
+    border-radius:var(--border-radius); 
+    padding:25px; 
+    box-shadow:var(--box-shadow); 
+    transition: var(--transition);
+    cursor: pointer;
+    border: 2px solid transparent;
+    position: relative;
+    overflow: hidden;
+}
+
+.tier-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(to right, var(--primary), var(--secondary));
+}
+
+.tier-card:hover { 
+    transform: translateY(-8px) scale(1.02);
+    box-shadow:0 12px 25px rgba(0,0,0,0.15);
+    border-color: var(--primary);
+}
+
+.tier-card h3 { 
+    color:var(--primary); 
+    font-size:18px; 
+    margin-bottom:12px; 
+    font-weight: 700;
+}
+
+.tier-card p { 
+    font-size:14px; 
+    margin:8px 0; 
+    color: var(--gray-700);
+}
+
+.tier-card p.price { 
+    font-weight:700; 
+    color:var(--primary-dark); 
+    font-size: 20px;
+    margin-top: 15px;
+}
+
+/* Prediction result card */
+.prediction-result {
+    background: linear-gradient(to right, #f3f4ff, #f0f4ff);
+    border-left: 4px solid var(--primary);
+}
+
+.prediction-result h2 {
+    color: var(--primary-dark);
+}
+
+.prediction-result p {
+    margin: 10px 0;
+    font-size: 15px;
+}
+
+.prediction-result p b {
+    color: var(--gray-800);
+    width: 120px;
+    display: inline-block;
+}
+
+/* Status indicators */
+.status-badge {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.status-active {
+    background: rgba(6, 214, 160, 0.15);
+    color: var(--success);
+}
+
+.status-inactive {
+    background: rgba(239, 71, 111, 0.15);
+    color: var(--danger);
+}
+
+/* Responsive */
+@media (max-width:992px) {
+    .sidebar {
+        width: 70px;
+        overflow: visible;
+    }
+    
+    .sidebar-header h3, .sidebar a span {
+        display: none;
+    }
+    
+    .sidebar a {
+        justify-content: center;
+        padding: 15px;
+    }
+    
+    .right-side {
+        margin-left: 70px;
+    }
+    
+    .sidebar a:hover::after {
+        content: attr(data-title);
+        position: absolute;
+        left: 80px;
+        background: var(--primary-dark);
+        padding: 8px 12px;
+        border-radius: 4px;
+        white-space: nowrap;
+        z-index: 1000;
+    }
+    
+    .tier-container {
+        gap: 15px;
+    }
+    
+    .tier-card {
+        flex: 1 1 100%;
+    }
+}
+
+@media (max-width:768px) {
+    .dashboard-heading {
+        padding: 15px 20px;
+    }
+    
+    .main-content {
+        padding: 20px 15px;
+    }
+    
+    .card {
+        padding: 20px;
+    }
+    
+    .dashboard-heading h1 {
+        font-size: 20px;
+    }
+    
+    .dashboard-heading h1 span {
+        display: block;
+        margin-left: 0;
+        margin-top: 5px;
+    }
+}
+
+/* Welcome header */
+.welcome-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.welcome-text h1 {
+    font-size: 28px;
+    color: var(--primary);
+    margin-bottom: 5px;
+}
+
+.welcome-text p {
+    color: var(--gray-600);
+    font-size: 16px;
+}
+
+.user-status {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #fff;
+    padding: 10px 15px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+}
+
+.user-status .status-badge {
+    margin-left: 5px;
+}
+
+/* Feature disabled message */
+.feature-disabled {
+    text-align: center;
+    padding: 30px 20px;
+    color: var(--gray-500);
+}
+
+.feature-disabled i {
+    font-size: 40px;
+    margin-bottom: 15px;
+    opacity: 0.5;
+}
+
+.feature-disabled p {
+    margin-bottom: 20px;
+}
+
+.upgrade-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--primary);
+    color: white;
+    padding: 10px 20px;
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.upgrade-btn:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+}
+</style>
+</head>
+<body>
+<div class="dashboard-container">
+    <!-- Sidebar -->
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <h3><i class="fa-solid fa-chart-line"></i> <span>Dashboard</span></h3>
+        </div>
+        <ul>
+            <li>
+                <a href="{{ url_for('dashboard', page='views') }}" class="{{ 'active' if page=='views' else '' }}" data-title="Views Predictor">
+                    <i class="fa-solid fa-eye"></i> <span>Views Predictor</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ url_for('dashboard', page='trending') }}" class="{{ 'active' if page=='trending' else '' }}" data-title="Trending & Similar">
+                    <i class="fa-solid fa-fire"></i> <span>Trending & Similar</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ url_for('dashboard', page='account') }}" class="{{ 'active' if page=='account' else '' }}" data-title="Account">
+                    <i class="fa-solid fa-user-cog"></i> <span>Account</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ url_for('dashboard', page='tiers') }}" class="{{ 'active' if page=='tiers' else '' }}" data-title="Available Tiers">
+                    <i class="fa-solid fa-layer-group"></i> <span>Available Tiers</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ url_for('logout') }}" data-title="Logout">
+                    <i class="fa-solid fa-right-from-bracket"></i> <span>Logout</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Right side -->
+    <div class="right-side">
+        <!-- Header always visible -->
+        <header class="dashboard-heading">
+            <h1>Smart Recommendation Interface <span>(SRI)</span></h1>
+            <div class="user-status">
+                <span>Status:</span> 
+                <span class="status-badge {{ 'status-active' if user.payment_active else 'status-inactive' }}">
+                    {{ 'Active' if user.payment_active else 'Inactive' }}
+                </span>
+            </div>
+        </header>
+
+        <!-- Main content -->
+        <div class="main-content">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="flash {{ category }}">
+                            <i class="fa-solid fa-{% if category == 'success' %}check-circle{% elif category == 'danger' %}exclamation-circle{% else %}exclamation-triangle{% endif %}"></i>
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <div class="welcome-header">
+                <div class="welcome-text">
+                    <h1>Welcome, {{ user.username }}!</h1>
+                    <p>Your current tier: {{ tier_label.get(user.payment_tier, 'None') }}</p>
+                </div>
+            </div>
+
+            {% if page == 'views' %}
+                <div class="card">
+                    <h2><i class="fa-solid fa-movie"></i> Predict Movie Hype</h2>
+                    {% if not payment_ok or user.payment_tier not in [1,3] %}
+                        <div class="feature-disabled">
+                            <i class="fa-solid fa-lock"></i>
+                            <p>Your current tier does not include this feature.</p>
+                            <a href="{{ url_for('dashboard', page='tiers') }}" class="upgrade-btn">
+                                <i class="fa-solid fa-arrow-up"></i> Upgrade Tier
+                            </a>
+                        </div>
+                    {% else %}
+                        <form method="post">
+                            <input type="hidden" name="action" value="predict">
+                            <input type="text" name="movie_name" placeholder="Movie/Series Name" required>
+                            <input type="date" name="release_date" placeholder="Release Date" required>
+                            <button type="submit"><i class="fa-solid fa-magic"></i> Predict</button>
+                        </form>
+                        {% if last_result %}
+                            <div class="card prediction-result">
+                                <h2><i class="fa-solid fa-chart-line"></i> Prediction Result</h2>
+                                <p><b>Title:</b> {{ last_result.title }}</p>
+                                <p><b>Release Date:</b> {{ last_result.release_date }}</p>
+                                <p><b>Hype Score:</b> {{ last_result.hype_score }}</p>
+                                <p><b>Min Views:</b> {{ last_result.min }}</p>
+                                <p><b>Max Views:</b> {{ last_result.max }}</p>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                </div>
+
+                <!-- Prediction History Button -->
+                {% if payment_ok and user.payment_tier in [1,3] and not show_history %}
+                <div class="card">
+                    <form method="post">
+                        <input type="hidden" name="action" value="view_history">
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">
+                            <i class="fa-solid fa-history"></i> View Prediction History
+                        </button>
+                    </form>
+                </div>
+                {% endif %}
+
+                <!-- Prediction History Section -->
+                {% if show_history %}
+                <div class="card">
+                    <h2><i class="fa-solid fa-history"></i> Prediction History</h2>
+                    
+                    {% if prediction_history is not none and not prediction_history.empty %}
+                        <div style="overflow-x: auto;">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Date</th>
+                                        <th>Hype Score</th>
+                                        <th>Min Views</th>
+                                        <th>Max Views</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for _, row in prediction_history.iterrows() %}
+                                    <tr>
+                                        <td>{{ row.Title }}</td>
+                                        <td>{{ row.Upload_Date }}</td>
+                                        <td>{{ row.Hype_Score }}</td>
+                                        <td>{{ row.Min }}</td>
+                                        <td>{{ row.Max }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div style="margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap;">
+                            <a href="{{ url_for('download_history') }}" class="btn btn-primary" style="text-decoration: none;">
+                                <i class="fa-solid fa-download"></i> Download History as CSV
+                            </a>
+                            
+                            <form method="post">
+                                <input type="hidden" name="action" value="close_history">
+                                <button type="submit" class="btn btn-secondary">
+                                    <i class="fa-solid fa-times"></i> Close History
+                                </button>
+                            </form>
+                        </div>
+                    {% else %}
+                        <p>No prediction history found.</p>
+                        <form method="post">
+                            <input type="hidden" name="action" value="close_history">
+                            <button type="submit" class="btn btn-secondary">
+                                <i class="fa-solid fa-times"></i> Close
+                            </button>
+                        </form>
+                    {% endif %}
+                </div>
+                {% endif %}
+
+
+            {% elif page == 'trending' %}
+                <div class="card">
+                    <h2><i class="fa-solid fa-fire"></i> Trending & Similar</h2>
+                    {% if not payment_ok or user.payment_tier not in [2,3] %}
+                        <div class="feature-disabled">
+                            <i class="fa-solid fa-lock"></i>
+                            <p>Your current tier does not include this feature.</p>
+                            <a href="{{ url_for('dashboard', page='tiers') }}" class="upgrade-btn">
+                                <i class="fa-solid fa-arrow-up"></i> Upgrade Tier
+                            </a>
+                        </div>
+                    {% else %}
+                        <p>Feature active for your tier. (To be implemented)</p>
+                    {% endif %}
+                </div>
+            {% elif page == 'tiers' %}
+                <div class="card">
+                    <h2><i class="fa-solid fa-layer-group"></i> Available Tiers</h2>
+                    <div class="tier-container">
+                        {% for tier in tiers %}
+                            <div class="tier-card">
+                                <h3>{{ tier.name }}</h3>
+                                <p>{{ tier.desc }}</p>
+                                <p class="price">{{ tier.price }}</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                
+            {% elif page == 'account' %}
+                <div class="card">
+                    <h2><i class="fa-solid fa-user-cog"></i> Account Information</h2>
+                    <p><b>Username:</b> {{ user.username }}</p>
+                    <p><b>Status:</b> 
+                        <span class="status-badge {{ 'status-active' if user.payment_active else 'status-inactive' }}">
+                            {{ 'Active' if user.payment_active else 'Inactive' }}
+                        </span>
+                    </p>
+                    <p><b>Tier:</b> {{ tier_label.get(user.payment_tier, 'None') }}</p>
+                    {% if user.payment_start %}
+                        <p><b>Payment Start:</b> {{ user.payment_start.strftime('%Y-%m-%d') }}</p>
+                    {% endif %}
+                </div>
+
+                <div class="card">
+                    <h2><i class="fa-solid fa-key"></i> Reset Password</h2>
+                    <form method="post">
+                        <input type="hidden" name="action" value="reset_password">
+                        <input type="password" name="new_password" placeholder="New Password" required>
+                        <button type="submit"><i class="fa-solid fa-refresh"></i> Reset Password</button>
+                    </form>
+                </div>
+
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script>
+    // Add active class to current page link
+    document.addEventListener('DOMContentLoaded', function() {
+        const currentPage = "{{ page }}";
+        const links = document.querySelectorAll('.sidebar a');
+        
+        links.forEach(link => {
+            if (link.getAttribute('href').includes(currentPage)) {
+                link.classList.add('active');
+            }
+        });
+        
+        // Add current year to copyright if needed
+        // document.getElementById('currentYear').textContent = new Date().getFullYear();
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,623 @@
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #6b73ff, #000dff);
+}
+
+.container {
+    width: 100%;
+    max-width: 400px;
+}
+
+.card {
+    background-color: #fff;
+    padding: 30px 25px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    text-align: center;
+}
+
+.card h2 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.card label {
+    display: block;
+    text-align: left;
+    margin: 10px 0 5px;
+    color: #555;
+}
+
+.card input[type="text"],
+.card input[type="password"],
+.card input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin-bottom: 15px;
+    transition: 0.3s;
+}
+
+.card input:focus {
+    border-color: #000dff;
+    outline: none;
+}
+
+.card button {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    background: #000dff;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.card button:hover {
+    background: #6b73ff;
+}
+
+.card p {
+    margin-top: 15px;
+    color: #555;
+}
+
+.card a {
+    color: #000dff;
+    text-decoration: none;
+}
+
+.card a:hover {
+    text-decoration: underline;
+}
+
+/* Flash messages */
+.flash {
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.flash.success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.flash.warning {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.flash.danger {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* Tabs */
+.tabs {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.tablink {
+    background-color: #f1f1f1;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 10px 15px;
+    font-size: 16px;
+    transition: 0.3s;
+    border-radius: 8px;
+    margin-right: 5px;
+}
+
+.tablink.active {
+    background-color: #000dff;
+    color: #fff;
+}
+
+.tablink:hover {
+    background-color: #6b73ff;
+    color: #fff;
+}
+
+.tablink.logout {
+    background-color: #ff4b5c;
+    color: #fff;
+    margin-left: auto;
+}
+
+.tablink.logout:hover {
+    background-color: #ff1c33;
+}
+
+/* Tab content */
+.tabcontent {
+    display: none;
+    animation: fadeEffect 0.5s;
+}
+
+@keyframes fadeEffect {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+.results {
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #eef2ff;
+    border-radius: 8px;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.admin-table th, .admin-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.admin-table th {
+    background-color: #000dff;
+    color: white;
+}
+
+.admin-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.admin-table tr:hover {
+    background-color: #eef2ff;
+}
+
+.admin-table button {
+    background-color: #6b73ff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    margin: 2px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.admin-table button:hover {
+    background-color: #000dff;
+}
+
+.logout-btn {
+    display: inline-block;
+    margin-top: 15px;
+    background-color: #ff4b5c;
+    color: white;
+    text-decoration: none;
+    padding: 8px 15px;
+    border-radius: 8px;
+}
+
+.logout-btn:hover {
+    background-color: #ff1c33;
+}
+/* ------------------------
+   General Layout
+------------------------ */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 50px auto;
+    padding: 20px;
+}
+
+.card {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0px 10px 30px rgba(0,0,0,0.15);
+}
+
+/* ------------------------
+   Headings
+------------------------ */
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #3333ff;
+}
+
+/* ------------------------
+   Forms
+------------------------ */
+input[type="text"], input[type="password"], input[type="number"], input[type="file"] {
+    width: 100%;
+    padding: 12px 15px;
+    margin: 8px 0 15px 0;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+button {
+    background-color: #6b73ff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.2s ease-in-out;
+}
+
+button:hover {
+    background-color: #000dff;
+}
+
+/* ------------------------
+   Flash messages
+------------------------ */
+.flash {
+    padding: 12px 20px;
+    margin: 10px 0;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+.flash.success { background-color: #d4edda; color: #155724; }
+.flash.warning { background-color: #fff3cd; color: #856404; }
+.flash.danger  { background-color: #f8d7da; color: #721c24; }
+
+/* ------------------------
+   Links
+------------------------ */
+a {
+    color: #764ba2;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+a:hover {
+    color: #3333ff;
+}
+
+/* ------------------------
+   Tables (Admin & User)
+------------------------ */
+.admin-table, .user-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.admin-table th, .admin-table td,
+.user-table th, .user-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.admin-table th, .user-table th {
+    background-color: #000dff;
+    color: white;
+}
+
+.admin-table tr:nth-child(even),
+.user-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.admin-table tr:hover,
+.user-table tr:hover {
+    background-color: #eef2ff;
+}
+
+/* ------------------------
+   Buttons inside tables
+------------------------ */
+.admin-table button,
+.user-table button {
+    padding: 5px 12px;
+    font-size: 14px;
+    border-radius: 6px;
+}
+
+.admin-table button:hover,
+.user-table button:hover {
+    transform: scale(1.05);
+}
+
+/* ------------------------
+   Logout button
+------------------------ */
+.logout-btn {
+    display: inline-block;
+    margin-top: 15px;
+    background-color: #ff4b5c;
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-weight: bold;
+}
+
+.logout-btn:hover {
+    background-color: #ff1c33;
+}
+
+/* ------------------------
+   Responsive
+------------------------ */
+@media (max-width: 768px) {
+    .card { padding: 20px; }
+    button { width: 100%; }
+}
+
+
+
+/* --------------------------------
+   General Page Styles
+-------------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Animated gradient background */
+@keyframes gradientBG {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
+}
+
+/* --------------------------------
+   Card / Glassmorphism
+-------------------------------- */
+.glass-card {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(15px) saturate(180%);
+    -webkit-backdrop-filter: blur(15px) saturate(180%);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    padding: 40px;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 8px 32px 0 rgba(0,0,0,0.2);
+    animation: fadeInUp 1s ease forwards;
+}
+
+/* --------------------------------
+   Animations
+-------------------------------- */
+@keyframes fadeInUp {
+    0% {opacity: 0; transform: translateY(20px);}
+    100% {opacity: 1; transform: translateY(0);}
+}
+
+input, select {
+    width: 100%;
+    padding: 12px 15px;
+    margin: 12px 0;
+    border: none;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.25);
+    color: #fff;
+    font-size: 16px;
+    outline: none;
+    transition: 0.3s;
+}
+
+input:focus, select:focus {
+    background: rgba(255,255,255,0.4);
+    box-shadow: 0 0 8px rgba(255,255,255,0.6);
+}
+
+button {
+    background-color: #6b73ff;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    margin-top: 15px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    width: 100%;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+button i {
+    margin-right: 8px;
+}
+
+button:hover {
+    background-color: #4e5bff;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+/* --------------------------------
+   Flash Messages
+-------------------------------- */
+.flash {
+    padding: 12px 20px;
+    margin: 10px 0;
+    border-radius: 12px;
+    font-weight: bold;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    color: #fff;
+    animation: flashIn 0.5s ease;
+}
+
+.flash.success { background: rgba(72, 187, 120, 0.7); }
+.flash.warning { background: rgba(255, 193, 7, 0.7); }
+.flash.danger { background: rgba(220, 53, 69, 0.7); }
+
+@keyframes flashIn {
+    0% {opacity: 0; transform: translateY(-10px);}
+    100% {opacity: 1; transform: translateY(0);}
+}
+
+/* --------------------------------
+   Links
+-------------------------------- */
+a {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+a:hover {
+    color: #ffd700;
+}
+
+/* --------------------------------
+   Headings
+-------------------------------- */
+h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #fff;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+
+
+/* --------------------------------
+   Responsive
+-------------------------------- */
+@media(max-width: 480px){
+    .glass-card { padding: 25px; }
+    h2 { font-size: 1.5rem; }
+    input { font-size: 14px; }
+    button { font-size: 14px; }
+}
+/* Dashboard Layout */
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #1f1c2c, #928dab);
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 220px;
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(12px);
+    color: #fff;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+.sidebar h3 { font-size: 1.2rem; margin-bottom: 1rem; }
+.sidebar ul { list-style: none; padding:0; }
+.sidebar li { margin: 15px 0; }
+.sidebar a { text-decoration: none; color: #fff; font-weight: 500; display:flex; align-items:center; gap:8px; transition: 0.3s; }
+.sidebar a:hover { color: #ffdd59; transform: translateX(5px); }
+
+/* Main Content */
+.main-content { flex:1; padding: 30px; color: #fff; }
+
+/* Glass Cards */
+.glass-card {
+    background: rgba(255,255,255,0.05);
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 25px;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.37);
+    transition: transform 0.3s ease;
+}
+.glass-card:hover { transform: translateY(-5px); }
+
+/* Inputs and Buttons */
+input, button {
+    padding: 10px;
+    margin: 8px 0;
+    border-radius: 8px;
+    border:none;
+}
+input { width: 100%; }
+button {
+    background: #ffdd59;
+    color: #1f1c2c;
+    cursor:pointer;
+    transition: 0.3s;
+}
+button:hover { background:#ffc700; transform: translateY(-2px); }
+
+/* Flash Messages */
+.flash { padding: 10px; border-radius: 6px; margin-bottom: 15px; }
+.flash.success { background: #28a745; color:#fff; }
+.flash.danger { background:#dc3545; color:#fff; }
+.flash.warning { background:#ffc107; color:#1f1c2c; }
+
+/* Table */
+.responsive-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.responsive-table th, .responsive-table td {
+    padding: 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+.responsive-table th { text-align:left; }
+
+/* Animations */
+@keyframes fadeIn { from {opacity:0;} to{opacity:1;} }
+.animate-fade { animation: fadeIn 0.8s ease forwards; }
+
+/* Responsive */
+@media(max-width: 768px) {
+    .dashboard-container { flex-direction: column; }
+    .sidebar { width: 100%; flex-direction: row; overflow-x:auto; }
+    .sidebar ul { display:flex; gap:15px; }
+    .main-content { padding:15px; }
+}
+
