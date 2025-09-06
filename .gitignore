@@ -7,3 +7,6 @@ User
 .uploads
 /uploads
 uploads
+test.db
+./test.db
+/test.db

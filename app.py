@@ -4,6 +4,7 @@ import pandas as pd
 from werkzeug.utils import secure_filename
 from passlib.hash import bcrypt
 import os
+import gc
 import pandas as pd
 import io
 from datetime import datetime, timedelta, timezone
@@ -28,6 +29,10 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 # Ensure database schema
 ensure_schema()
 
+@app.after_request
+def clear_memory(response):
+    gc.collect()  # Force garbage collection after each request
+    return response
 # -----------------------------
 # Entry page: redirect to login or dashboard
 # -----------------------------
